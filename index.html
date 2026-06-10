@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Odo Energy Display</title>
+  <meta charset="UTF-8">
+  <title>Energy Counter</title>
 
-  <link rel="stylesheet" href="car.css" />
+  <link rel="stylesheet" href="car.css">
 
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
       background: #111;
-      color: #eee;
+      color: #fff;
       font-family: Arial, sans-serif;
+    }
+
+    body {
       display: flex;
-      height: 100vh;
       align-items: center;
       justify-content: center;
     }
@@ -23,42 +28,60 @@
     }
 
     .label {
-      font-size: 18px;
+      font-size: 20px;
       letter-spacing: 4px;
       color: #aaa;
-      margin-bottom: 12px;
+      margin-bottom: 20px;
     }
 
     .odometer {
-      font-size: 72px;
+      font-size: 96px;
+      line-height: 1;
     }
 
     .unit {
-      margin-top: 10px;
-      font-size: 20px;
-      color: #aaa;
+      margin-top: 15px;
+      font-size: 22px;
+      color: #888;
+      letter-spacing: 2px;
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="label">HOUSE LOAD</div>
-    <div id="load" class="odometer">0.00</div>
-    <div class="unit">kW</div>
+
+<div class="wrap">
+  <div class="label">HOUSE LOAD</div>
+
+  <div id="load" class="odometer">
+    0.00
   </div>
 
-  <script src="odo.js"></script>
+  <div class="unit">kW</div>
+</div>
 
-  <script>
-    setTimeout(function () {
-      document.getElementById("load").innerHTML = 3.42;
-    }, 1000);
+<script src="odometer.js"></script>
 
-    setInterval(function () {
-      const fakeValue = (Math.random() * 8).toFixed(2);
-      document.getElementById("load").innerHTML = fakeValue;
-    }, 5000);
-  </script>
+<script>
+  var odometer = new Odometer({
+    el: document.getElementById("load"),
+    value: 0,
+    theme: "car",
+    format: "(,ddd).dd",
+    duration: 1000
+  });
+
+  odometer.render();
+
+  setTimeout(function () {
+    odometer.update(3.42);
+  }, 1000);
+
+  setInterval(function () {
+    var fakeValue = (Math.random() * 8).toFixed(2);
+    odometer.update(fakeValue);
+  }, 5000);
+</script>
+
 </body>
 </html>
